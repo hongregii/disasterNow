@@ -10,6 +10,8 @@
 
 ## 어떠한 문제를 해결하는가?
 
+- 실시간 재난 상황 파악 및 대응
+- 현장의 이용자들이 재난 상황을 공유하고, 재난 상황에서 빠른 의사결정에 기여하는 서비스.
 - 실시간 재난 발생 현황 api, 지도 api, 사진 및 게시글 올릴 수 있는 기능
   &rarr; 실시간으로 무슨 재난이 어디서 발생했는지 파악.
 - 기부 / 모금, 구조 상황 공유 등에도 기여할 예정.
@@ -26,8 +28,9 @@
 - 모바일 브라우저가 제공하는 GeoLocation 정보
 - 모바일 디바이스에서 찍을 수 있는 사진 정보
 - 지도 API 및 행정안전부 재난정보 API
+- 국토교통부 제공 실시간 CCTV API
 
-이 세가지를 매쉬업하여 실시간으로 재난 상황을 공유할 수 있는 웹서비스를 만들고자 함.
+이 네가지를 매쉬업하여 실시간으로 재난 상황을 공유할 수 있는 웹서비스를 만들고자 함.
 
 ## 적용 기술 소개 (HTML & Web APIs 등)
 
@@ -47,6 +50,7 @@
   - 행정안전부 상황전파메시지정보 https://www.data.go.kr/data/3058491/openapi.do#tab_layer_detail_function
   - 네이버 지도 api https://www.ncloud.com/product/applicationService/maps
   - Geolocation api
+  - 국토교통부 제공 실시간 CCTV 현황 https://www.its.go.kr/opendata/opendataList?service=cctv
 
 ## 데이터 소개
 
@@ -55,6 +59,9 @@
   <img src="./static/데이터캡처.png" width="350px">
 
 - 회원 게시물 데이터 : 개인정보는 저장하지 않을 예정.
+- 국토교통부 제공 실시간 CCTV 예시 :
+
+  <img src="./static/cctv.jpg" width="350px">
 
 ## 데이터 수집 (출처 포함) 및 가공 (또는 사용자 제공 정보 공유)
 
@@ -69,7 +76,7 @@
 
 ## 서비스 시나리오 (scenario)
 
-1. 행정안전부 API에 의해 재난 발생이 인지 &rarr; [지금재난] 웹사이트에 배너 dialog 띄움
+1. 행정안전부 API에 의해 재난 발생 인지 &rarr; [지금재난] 웹사이트에 배너 dialog 띄움
 2. "지역 + 재난명" 태그 생성 ex.[포항 지진]
    &rarr; 게시판에 태그 단 게시물만 모아 볼 수 있게 됨.
 3. 이용자들이 사진과 재난 상황 게시물을 등록.
