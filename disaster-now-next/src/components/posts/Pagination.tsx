@@ -2,7 +2,7 @@
 const Pagination = ({
   handlePageChange,
 }: {
-  handlePageChange: Promise<void>;
+  handlePageChange: (pageNumber: number) => void;
 }) => {
   const totalPages = 10; // 전체 페이지 수 (예시로 10으로 설정)
   const currentPage = 1; // 현재 페이지 (예시로 1로 설정)
@@ -25,7 +25,9 @@ const Pagination = ({
                 className={`pagination-item p-1 m-1 border border-black rounded ${
                   isActive ? "active" : ""
                 }`}
-                onClick={() => handlePageChange(pageNumber)}
+                onClick={() => {
+                  handlePageChange(pageNumber);
+                }}
               >
                 {pageNumber}
               </button>

@@ -1,10 +1,10 @@
 import axios from "axios";
 
 const axiosLocalInstance = axios.create({
-  baseURL: "localhost:3100",
-  headers: {
-    token: `Bearer ${sessionStorage.getItem("token")}`,
-  },
+  baseURL: "http://localhost:3100",
+  // headers: {
+  //   token: `Bearer ${sessionStorage.getItem("token")}`,
+  // },
 });
 
 export const getAxios = async (endpoint: string) => {

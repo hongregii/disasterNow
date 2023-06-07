@@ -4,7 +4,7 @@ import Pagination from "@/components/posts/Pagination";
 import Thumb from "@/components/posts/Thumb";
 import Link from "next/link";
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Page({
   searchParams,
@@ -100,7 +100,7 @@ export default function Page({
 
   const [page, setPage] = useState(1);
 
-  const handlePageChange = async (pageNumber: number): Promise<void> => {
+  const handlePageChange = (pageNumber: number): void => {
     // searchParams;
     setPage(pageNumber);
   };
@@ -112,6 +112,7 @@ export default function Page({
     },
     { keepPreviousData: true }
   );
+  console.log("resData : ", resData);
   return (
     <>
       <div>posts!</div>
