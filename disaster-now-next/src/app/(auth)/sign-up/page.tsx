@@ -1,12 +1,24 @@
 "use client";
 
+import { postAxios, signUpAxios } from "@/api/axiosInstance";
+import { SignupDto } from "@/interface/userDtos";
 import Link from "next/link";
 import React, { useState } from "react";
 
 export default function Signup() {
-  const [signupData, setSignupData] = useState({});
+  const [signupData, setSignupData] = useState<SignupDto>({
+    email: "",
+    password: "",
+    passwordCheck: "",
+    userName: "",
+  });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (signupData: SignupDto) => {
+    const res = await signUpAxios(signupData);
+    console.log(res);
   };
   return (
     <div>
@@ -48,7 +60,14 @@ export default function Signup() {
             type="text"
           />
         </label>
-        <button onClick={() => console.log(signupData)}>Sign up</button>
+        <button
+          onClick={() => {
+            console.log(signupData);
+            handleSubmit(signupData);
+          }}
+        >
+          Sign up
+        </button>
         <Link href={"/"}>HOME</Link>
       </div>
     </div>

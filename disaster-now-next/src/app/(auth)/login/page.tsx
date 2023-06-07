@@ -1,12 +1,27 @@
 "use client";
 
+import { loginAxios, postAxios } from "@/api/axiosInstance";
+import { LoginDto } from "@/interface/userDtos";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Auth() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const onAuthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData({ ...loginData, [event.target.name]: event.target.value });
+  };
+  const router = useRouter();
+
+  const handleLogin = async (loginData: LoginDto) => {
+    // const res = await postAxios("auth/login", loginData);
+    // console.log(res);
+    // sessionStorage.setItem("token", res.data.token);
+    const token = await loginAxios(loginData);
+    if (token) {
+      router.push("/posts");
+      // return;
+    }
   };
   return (
     <div className="box-border h-64 w-64 p-4  flex flex-col align-center justify-center mx-auto h-screen">
@@ -32,10 +47,11 @@ export default function Auth() {
         </label>
         <button
           className="bg-white m-2 w-16 text-black justify-self-center rounded"
-          onClick={(e) => {
-            e.preventDefault();
-            console.log(loginData);
-            alert(loginData?.email + loginData?.password);
+          onClick={() => {
+            // e.preventDefault();
+            // console.log(loginData);
+            // alert(loginData?.email + loginData?.password);
+            handleLogin(loginData);
           }}
         >
           LOGIN

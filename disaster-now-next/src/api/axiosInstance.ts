@@ -1,11 +1,38 @@
+import { LoginDto, SignupDto } from "@/interface/userDtos";
 import axios from "axios";
 
 const axiosLocalInstance = axios.create({
+  baseURL: "http://localhost:3100",
+  headers: {
+    token: `Bearer ${sessionStorage.getItem("token")}`,
+  },
+});
+
+const axiosLogOutInstance = axios.create({
   baseURL: "http://localhost:3100",
   // headers: {
   //   token: `Bearer ${sessionStorage.getItem("token")}`,
   // },
 });
+
+export const loginAxios = async (loginData: LoginDto) => {
+  try {
+    const res = await axiosLogOutInstance.post("/auth/login", loginData);
+    sessionStorage.setItem("token", res.data.token);
+    return res.data.token;
+  } catch {
+    // console.log(res);
+    // alert("올바른 email / 비밀번호를 입력하세요");
+    // if (res.status === 201) {
+    alert("올바른 email / 비밀번호가 아닙니다.");
+  }
+};
+
+export const signUpAxios = async (signUpData: SignupDto) => {
+  const res = await axiosLogOutInstance.post("/user/sign-up", signUpData);
+  // sessionStorage.setItem("token", res.data.token);
+  return res;
+};
 
 export const getAxios = async (endpoint: string) => {
   const res = await axiosLocalInstance.get(`${endpoint}`);
