@@ -1,10 +1,11 @@
 "use client";
-import { getAxios } from "@/api/axiosInstance";
+import { getAnyoneAxios } from "@/api/axiosInstance";
 import Pagination from "@/components/posts/Pagination";
 import Thumb from "@/components/posts/Thumb";
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Page({
   searchParams,
@@ -108,11 +109,11 @@ export default function Page({
   const resData = useQuery(
     ["gallery", page],
     async () => {
-      await getAxios(`/posts?page=${page}`);
+      await axios.get(`posts?page=${page}`);
     },
     { keepPreviousData: true }
   );
-  console.log("resData : ", resData);
+  // console.log("resData : ", resData);
   return (
     <>
       <div>posts!</div>

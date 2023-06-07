@@ -10,9 +10,6 @@ const axiosLocalInstance = axios.create({
 
 const axiosLogOutInstance = axios.create({
   baseURL: "http://localhost:3100",
-  // headers: {
-  //   token: `Bearer ${sessionStorage.getItem("token")}`,
-  // },
 });
 
 export const loginAxios = async (loginData: LoginDto) => {
@@ -26,6 +23,11 @@ export const loginAxios = async (loginData: LoginDto) => {
     // if (res.status === 201) {
     alert("올바른 email / 비밀번호가 아닙니다.");
   }
+};
+
+export const getAnyoneAxios = async (endpoint: string) => {
+  const res = await axiosLogOutInstance.get(`${endpoint}`);
+  return res;
 };
 
 export const signUpAxios = async (signUpData: SignupDto) => {
