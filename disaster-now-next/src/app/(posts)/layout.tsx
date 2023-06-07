@@ -11,7 +11,7 @@ export default function PostLayout({
   return (
     <>
       <Header />
-      <main className="h-screen">{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
       <Script
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f7826b3b18715f0aa657dd18239a0e5f&libraries=services,clusterer&autoload=false"

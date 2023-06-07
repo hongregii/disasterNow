@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <header className="bg-gray-100 h-12 w-screen flex flex-row align-center justify-between space-b">
+    <header className="bg-gray-100 h-12 w-full flex flex-row align-center justify-between ">
       <div className="m-3">
         <button>hamburger</button>
       </div>
