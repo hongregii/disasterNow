@@ -1,135 +1,91 @@
-"use client";
+// "use client";
 import { getAnyoneAxios } from "@/api/axiosInstance";
 import Pagination from "@/components/posts/Pagination";
 import Thumb from "@/components/posts/Thumb";
 import Link from "next/link";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import next from "next/types";
 import axios from "axios";
+import { Button } from "@/components/Button";
+import Best from "@/components/posts/Best";
 
-export default function Page({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const galleryData = [
-    {
-      postId: 1,
-      title: "title1",
-      content: "content1 content1 content1",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 2,
-      title: "title2",
-      content: "content2 content2 content2",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 3,
-      title: "title3",
-      content: "content3 content3 content3",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 4,
-      title: "title4",
-      content: "content4 content4 content4",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 5,
-      title: "title5",
-      content: "content5 content5 content5",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 6,
-      title: "title6",
-      content: "content6 content6 content6",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 7,
-      title: "title7",
-      content: "content7 content7 content7",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 8,
-      title: "title8",
-      content: "content8 content8 content8",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 9,
-      title: "title9",
-      content: "content9 content9 content9",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    {
-      postId: 10,
-      title: "title10",
-      content: "content10 content10 content10",
-      img: "img",
-      createdAt: "2023-06-07 11:32:00",
-    },
-    // {
-    //   postId: 11,
-    //   title: "title11",
-    //   content: "content11 content11 content11",
-    //   img: "img",
-    // createdAt: "2023-06-07 11:32:00"
-    // },
-    // {
-    //   postId: 12,
-    //   title: "title12",
-    //   content: "content12 content12 content12",
-    //   img: "img",
-    // createdAt: "2023-06-07 11:32:00"
-    // },
-  ];
+  // console.log("sp : ", searchParams);
+  let totalPage;
 
-  const [page, setPage] = useState(1);
-
-  const handlePageChange = (pageNumber: number): void => {
-    // searchParams;
-    setPage(pageNumber);
+  const getAllPosts = async () => {
+    const resData = await fetch(
+      `http://localhost:3100/posts?page=${searchParams?.page}`,
+      {
+        next: { revalidate: 10 },
+      }
+    );
+    return resData.json();
   };
 
-  const resData = useQuery(
-    ["gallery", page],
-    async () => {
-      await axios.get(`posts?page=${page}`);
-    },
-    { keepPreviousData: true }
-  );
-  // console.log("resData : ", resData);
+  const gallery = await getAllPosts();
+
   return (
     <>
-      <div>posts!</div>
-      <Link href={"/write"}>등록</Link>
-      <div className="h-32 w-auto p-4 m-3 bg-gray-300">
-        <h2>요약 box</h2>
+      {/* <div>posts!</div> */}
+      <div className="flex flex-row justify-between">
+        <div></div>
+        <Link href={"/write"}>
+          <Button color="blue">게시물 등록</Button>
+        </Link>
       </div>
-      <div className="h-auto w-auto p-4 m-3 bg-gray-100">
+      <div className=" w-auto p-2 pt-4 ml-3 mr-3 bg-slate-400 rounded-md">
+        <h2>HOT</h2>
+        <div className="flex flex-row justify-between">
+          {gallery
+            .slice(0, 3)
+            ?.map(
+              (data: {
+                postId: number;
+                title?: string;
+                content?: string;
+                img?: string;
+                createdAt: string;
+              }) => {
+                return (
+                  <Best
+                    data={{ img: data.img, title: data.title }}
+                    key={data.title}
+                  />
+                );
+              }
+            )}
+        </div>
+      </div>
+      {/* <div className="ml-3 mr-3 flex flex-end">
+        <Link href={"/write"}>
+          <Button>게시물 등록</Button>
+        </Link>
+      </div> */}
+      <div className="h-auto w-auto p-4 m-3 bg-slate-100 rounded-md">
         <h2>갤러리</h2>
         <div>
           <ul>
-            {galleryData.map((data) => {
+            {/* {galleryData.map((data) => {
               return <Thumb post={data} key={data.postId} />;
-            })}
+            })} */}
+            {gallery?.map(
+              (data: {
+                postId: number;
+                title?: string;
+                content?: string;
+                img?: string;
+                createdAt: string;
+              }) => {
+                return <Thumb post={data} key={data.postId} />;
+              }
+            )}
           </ul>
-          <Pagination handlePageChange={handlePageChange} />
+          <Pagination />
         </div>
       </div>
     </>

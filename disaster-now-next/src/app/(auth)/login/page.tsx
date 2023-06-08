@@ -60,7 +60,7 @@ export default function Auth() {
           <button>Sign Up</button>
         </Link>
       </div>
-      <Link href={"/"}>BACK</Link>
+      <Link href={"/posts"}>BACK</Link>
     </div>
   );
 }

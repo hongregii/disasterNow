@@ -1,10 +1,14 @@
-"use client";
-const Pagination = ({
-  handlePageChange,
-}: {
-  handlePageChange: (pageNumber: number) => void;
-}) => {
-  const totalPages = 10; // 전체 페이지 수 (예시로 10으로 설정)
+import Link from "next/link";
+
+// "use client";
+const Pagination = (
+  {
+    //   handlePageChange,
+    // }: {
+    //   handlePageChange: (pageNumber: number) => void;
+  }
+) => {
+  const totalPages = 5; // 전체 페이지 수 (예시로 10으로 설정)
   const currentPage = 1; // 현재 페이지 (예시로 1로 설정)
 
   //   const handlePageChange = (pageNumber: string | number) => {
@@ -21,16 +25,15 @@ const Pagination = ({
 
           return (
             <li key={index} className="">
-              <button
-                className={`pagination-item p-1 m-1 border border-black rounded ${
-                  isActive ? "active" : ""
-                }`}
-                onClick={() => {
-                  handlePageChange(pageNumber);
-                }}
-              >
-                {pageNumber}
-              </button>
+              <Link href={`posts/?page=${pageNumber}`}>
+                <button
+                  className={`pagination-item p-1 m-1 border rounded w-6 bg-white ${
+                    isActive ? "active" : ""
+                  }`}
+                >
+                  {pageNumber}
+                </button>
+              </Link>
             </li>
           );
         })}
