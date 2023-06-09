@@ -16,7 +16,6 @@ export default async function Page({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   // console.log("sp : ", searchParams);
-  let totalPage;
 
   const getAllPosts = async () => {
     const resData = await fetch(
@@ -28,7 +27,11 @@ export default async function Page({
     return resData.json();
   };
 
-  const gallery = await getAllPosts();
+  const res = await getAllPosts();
+  const gallery = res.data;
+  const totalPage = res.totalPage;
+  // const gallery = await getAllPosts().data;
+  // const totalPage = await getAllPosts().totalPage;
 
   const getAllDMessage = async () => {
     const resData = await fetch(`http://localhost:3100/tags`, {
@@ -73,7 +76,7 @@ export default async function Page({
               return <Thumb post={data} key={data.postId} />;
             })}
           </ul>
-          <Pagination />
+          <Pagination totalPage={totalPage} />
         </div>
       </div>
     </>

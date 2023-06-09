@@ -1,6 +1,7 @@
 "use client";
 
 import { postAxios, signUpAxios } from "@/api/axiosInstance";
+import { Button } from "@/components/Button";
 import { SignupDto } from "@/interface/userDtos";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -22,7 +23,14 @@ export default function Signup() {
   };
   return (
     <div>
-      <h1>Signup</h1>
+      <div className="flex flex-row justify-between">
+        <h1>Signup</h1>
+        {/* <Button> */}
+        <h1>
+          <Link href={"/posts"}>HOME</Link>
+        </h1>
+        {/* </Button> */}
+      </div>
       <div className="flex flex-col bg-gray-100 p-4 justify-center align-center">
         <label>
           email
@@ -60,15 +68,14 @@ export default function Signup() {
             type="text"
           />
         </label>
-        <button
+        <Button
           onClick={() => {
             console.log(signupData);
             handleSubmit(signupData);
           }}
         >
           Sign up
-        </button>
-        <Link href={"/"}>HOME</Link>
+        </Button>
       </div>
     </div>
   );
