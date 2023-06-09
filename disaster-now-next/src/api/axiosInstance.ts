@@ -4,7 +4,14 @@ import axios from "axios";
 const axiosLocalInstance = axios.create({
   baseURL: "http://localhost:3100",
   headers: {
-    token: `Bearer ${sessionStorage.getItem("token")}`,
+    // token: `Bearer ${sessionStorage.getItem("token")}`,
+  },
+});
+
+const axiosLocalImgInstance = axios.create({
+  baseURL: "http://localhost:3100",
+  headers: {
+    //
   },
 });
 
@@ -50,5 +57,10 @@ export const patchAxios = async (endpoint: string, body: object) => {
 };
 export const deleteAxios = async (endpoint: string) => {
   const res = await axiosLocalInstance.delete(`${endpoint}`);
+  return res;
+};
+
+export const postImgAxios = async (endpoint: string, body: object) => {
+  const res = await axiosLocalImgInstance.post(`${endpoint}`, body);
   return res;
 };

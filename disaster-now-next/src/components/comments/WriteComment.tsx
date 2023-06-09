@@ -1,16 +1,37 @@
 "use client";
 import { useState } from "react";
 import { Button } from "../Button";
+import { postAxios } from "@/api/axiosInstance";
+import Router from "next/router";
 
-export function WriteComment() {
+export function WriteComment({ postId }: { postId: number }) {
   const [commentData, setCommentData] = useState({
     userName: "",
     password: "",
     comment: "",
   });
+  //   const router = useRouter();
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     setCommentData({ ...commentData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    if (
+      !commentData.userName ||
+      !commentData.password ||
+      !commentData.comment
+    ) {
+      alert("댓글을 확인해 주세요");
+      Router.replace(Router.asPath);
+      return;
+    }
+    const res = await postAxios(`comments/${postId}`, commentData);
+    // console.log(res);
+    // alert(res);
+    if (res.status === 201) {
+      alert("등록이 완료되었습니다.");
+    }
   };
 
   return (
@@ -35,7 +56,9 @@ export function WriteComment() {
         className="border border-gray-300 w-full h-40 p-2"
         placeholder="댓글을 입력해 주세요"
       />
-      <Button color="blue">등록</Button>
+      <Button color="blue" onClick={handleSubmit}>
+        등록
+      </Button>
     </div>
   );
 }

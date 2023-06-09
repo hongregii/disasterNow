@@ -88,7 +88,7 @@ export default async function Post({ params }: { params: { postId: number } }) {
       </div>
       {/* 댓글 입력창 */}
       <div className="flex justify-center">
-        <WriteComment />
+        <WriteComment postId={params.postId} />
       </div>
     </div>
   );
