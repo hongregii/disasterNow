@@ -52,36 +52,41 @@ export default function Write() {
   };
 
   const router = useRouter();
+
   const handleSubmit = async () => {
     console.log("postData : ", postData);
     console.log("current : ", current);
     console.log("imgFormData : ", imgFormData);
 
-    //이미지 없으면
-    if (!imgFormData) {
-      const uploadData = { ...postData, ...current };
-      console.log("here ", uploadData);
-      const res = await postAxios(`/posts/create`, uploadData);
-      console.log("res : ", res);
-      if (res.data === "This action adds a new post") {
-        router.push("posts");
+    try {
+      //이미지 없으면
+      if (!imgFormData) {
+        const uploadData = { ...postData, ...current };
+        console.log("here ", uploadData);
+        const res = await postAxios(`/posts/create`, uploadData);
+        console.log("res : ", res);
+        if (res.data === "This action adds a new post") {
+          router.push("posts");
+        }
+        return;
       }
-      return;
-    }
 
-    //이미지 있으면 먼저
-    const imgRes = await postImgAxios(`/posts/image`, imgFormData);
-    console.log("imgRes : ", imgRes);
+      //이미지 있으면 먼저
+      const imgRes = await postImgAxios(`/posts/image`, imgFormData);
+      console.log("imgRes : ", imgRes);
 
-    if (imgRes.data.status === 201) {
-      const uploadData = { ...postData, ...current, img: imgRes.data.path };
-      console.log("uploadData : ", uploadData);
-      const res = await postAxios(`/posts/create`, uploadData);
-      console.log("res : ", res);
+      if (imgRes.data.status === 201) {
+        const uploadData = { ...postData, ...current, img: imgRes.data.path };
+        console.log("uploadData : ", uploadData);
+        const res = await postAxios(`/posts/create`, uploadData);
+        console.log("res : ", res);
 
-      if (res.data === "This action adds a new post") {
-        router.back();
+        if (res.data === "This action adds a new post") {
+          router.back();
+        }
       }
+    } catch (e) {
+      alert("게시물 등록 실패!");
     }
   };
 

@@ -1,5 +1,6 @@
 import CommentBox from "@/components/comments/CommentBox";
 import { WriteComment } from "@/components/comments/WriteComment";
+// import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 export default async function Post({ params }: { params: { postId: number } }) {
   const getOnePost = async () => {
@@ -17,7 +18,7 @@ export default async function Post({ params }: { params: { postId: number } }) {
   const data = getOnePost();
 
   const gallery = await data;
-  console.log(gallery);
+  // console.log(gallery);
 
   const parsedDateArray = await gallery?.createdAt
     ?.toString()
@@ -57,6 +58,9 @@ export default async function Post({ params }: { params: { postId: number } }) {
             {gallery?.userName}
           </span>
           <span className="m-1 text-sm">{parsedDate}</span>
+          <span className="m-1 text-sm h-full pl-2 border-l border-gray-300 ">
+            {gallery?.address}
+          </span>
         </div>
       </div>
       {/* 내용박스 */}
@@ -71,6 +75,13 @@ export default async function Post({ params }: { params: { postId: number } }) {
         <div className="m-2 h-40">
           <p>{gallery?.content}</p>
         </div>
+        {/* <Map
+          center={{ lng: gallery?.lng, lat: gallery?.lat }}
+          style={{ width: "342px", height: "200px" }}
+          level={3}
+        >
+          <MapMarker position={{ lng: gallery?.lng, lat: gallery?.lat }} />
+        </Map> */}
       </div>
       {/* 댓글박스 */}
       <div>
