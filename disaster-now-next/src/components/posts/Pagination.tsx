@@ -25,7 +25,7 @@ const Pagination = (
 
           return (
             <li key={index} className="">
-              <Link href={`posts/?page=${pageNumber}`}>
+              <Link href={`posts?page=${pageNumber}`}>
                 <button
                   className={`pagination-item p-1 m-1 border rounded w-6 bg-white ${
                     isActive ? "active" : ""

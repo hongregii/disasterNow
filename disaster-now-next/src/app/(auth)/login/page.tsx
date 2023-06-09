@@ -25,8 +25,8 @@ export default function Auth() {
   };
   return (
     <div className="box-border h-64 w-64 p-4  flex flex-col align-center justify-center mx-auto h-screen">
-      <div className="">AUTH</div>
-      <div className="flex flex-col align-center justify-center bg-sky-500 p-3">
+      <h1 className="">LOG IN</h1>
+      <div className="flex flex-col align-center justify-center bg-sky-500 p-3 rounded-lg h-60 w-auto">
         <label>
           email
           <input

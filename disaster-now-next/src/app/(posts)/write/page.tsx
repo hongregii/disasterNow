@@ -1,15 +1,15 @@
 "use client";
 
-import { postAxios } from "@/api/axiosInstance";
+import { postAxios, postImgAxios } from "@/api/axiosInstance";
 import { Button } from "@/components/Button";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 export default function Write() {
   const [postData, setPostData] = useState({});
 
-  // const [imgFormData, setImgFormData] = useState<File | null>(null);
-  const formData = new FormData();
+  const [imgFormData, setImgFormData] = useState<FormData | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -51,21 +51,37 @@ export default function Write() {
     });
   };
 
+  const router = useRouter();
   const handleSubmit = async () => {
     console.log("postData : ", postData);
     console.log("current : ", current);
-    console.log("imgFormData : ", formData);
+    console.log("imgFormData : ", imgFormData);
 
-    //이미지 빼고
-    const uploadData = { ...postData, ...current };
-    console.log("uploadData : ", uploadData);
-    const imgRes = await postAxios(`/posts/image`, formData);
+    //이미지 없으면
+    if (!imgFormData) {
+      const uploadData = { ...postData, ...current };
+      console.log("here ", uploadData);
+      const res = await postAxios(`/posts/create`, uploadData);
+      console.log("res : ", res);
+      if (res.data === "This action adds a new post") {
+        router.push("posts");
+      }
+      return;
+    }
 
-    if (imgRes.status === 201) {
-      const postId = imgRes.data.postId;
-      // const imgUrl = res.data.img;
-      console.log(`postId/${postId}`, postId);
-      const res = await postAxios("/posts/create", uploadData);
+    //이미지 있으면 먼저
+    const imgRes = await postImgAxios(`/posts/image`, imgFormData);
+    console.log("imgRes : ", imgRes);
+
+    if (imgRes.data.status === 201) {
+      const uploadData = { ...postData, ...current, img: imgRes.data.path };
+      console.log("uploadData : ", uploadData);
+      const res = await postAxios(`/posts/create`, uploadData);
+      console.log("res : ", res);
+
+      if (res.data === "This action adds a new post") {
+        router.back();
+      }
     }
   };
 
@@ -86,11 +102,15 @@ export default function Write() {
   // 이미지 업로드 input의 onChange
   const saveImgFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files !== null) {
-      const file = e.target.files[0];
-      setImgPreview(URL.createObjectURL(file));
+      // let formData = new FormData();
 
-      formData.append("file", file);
-      // console.log(formData);
+      const imagefile = e.target.files[0];
+      setImgPreview(URL.createObjectURL(imagefile));
+
+      const imgPayload = new FormData();
+      imgPayload.append("file", imagefile, imagefile.name);
+      setImgFormData(imgPayload);
+      // console.log(imgFormData);
       // for (const keyValue of formData) console.log(keyValue);
       // const reader = new FileReader();
       // reader.readAsDataURL(file);

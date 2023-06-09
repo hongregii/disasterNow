@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "../Button";
 import { postAxios } from "@/api/axiosInstance";
 import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 export function WriteComment({ postId }: { postId: number }) {
   const [commentData, setCommentData] = useState({
@@ -10,7 +11,7 @@ export function WriteComment({ postId }: { postId: number }) {
     password: "",
     comment: "",
   });
-  //   const router = useRouter();
+  const router = useRouter();
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     setCommentData({ ...commentData, [e.target.name]: e.target.value });
@@ -30,7 +31,13 @@ export function WriteComment({ postId }: { postId: number }) {
     // console.log(res);
     // alert(res);
     if (res.status === 201) {
+      setCommentData({
+        userName: "",
+        password: "",
+        comment: "",
+      });
       alert("등록이 완료되었습니다.");
+      router.refresh();
     }
   };
 
@@ -40,12 +47,14 @@ export function WriteComment({ postId }: { postId: number }) {
         <input
           name="userName"
           onChange={handleChange}
+          value={commentData?.userName}
           className="border border-gray-300 w-1/2 h-8 p-2"
           placeholder="닉네임"
         />
         <input
           name="password"
           onChange={handleChange}
+          value={commentData?.password}
           className="border border-gray-300 w-1/2 h-8 p-2"
           placeholder="비밀번호"
         />
@@ -53,11 +62,12 @@ export function WriteComment({ postId }: { postId: number }) {
       <input
         name="comment"
         onChange={handleChange}
+        value={commentData?.comment}
         className="border border-gray-300 w-full h-40 p-2"
         placeholder="댓글을 입력해 주세요"
       />
       <Button color="blue" onClick={handleSubmit}>
-        등록
+        댓글 쓰기
       </Button>
     </div>
   );

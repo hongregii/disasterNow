@@ -8,6 +8,7 @@ import next from "next/types";
 import axios from "axios";
 import { Button } from "@/components/Button";
 import Best from "@/components/posts/Best";
+import { IGallery, ITags } from "@/interface/postsDtos";
 
 export default async function Page({
   searchParams,
@@ -21,13 +22,23 @@ export default async function Page({
     const resData = await fetch(
       `http://localhost:3100/posts?page=${searchParams?.page}`,
       {
-        next: { revalidate: 10 },
+        cache: "no-store",
       }
     );
     return resData.json();
   };
 
   const gallery = await getAllPosts();
+
+  const getAllDMessage = async () => {
+    const resData = await fetch(`http://localhost:3100/tags`, {
+      cache: "no-store",
+    });
+    return resData.json();
+  };
+
+  const tagData = await getAllDMessage();
+  console.log("TD", tagData);
 
   return (
     <>
@@ -39,26 +50,11 @@ export default async function Page({
         </Link>
       </div>
       <div className=" w-auto p-2 pt-4 ml-3 mr-3 bg-slate-400 rounded-md">
-        <h2>HOT</h2>
+        <h2>재난문자현황 </h2>
         <div className="flex flex-row justify-between">
-          {gallery
-            .slice(0, 3)
-            ?.map(
-              (data: {
-                postId: number;
-                title?: string;
-                content?: string;
-                img?: string;
-                createdAt: string;
-              }) => {
-                return (
-                  <Best
-                    data={{ img: data.img, title: data.title }}
-                    key={data.title}
-                  />
-                );
-              }
-            )}
+          {tagData?.map((data: ITags) => {
+            return <Best data={data} key={data.tagId} />;
+          })}
         </div>
       </div>
       {/* <div className="ml-3 mr-3 flex flex-end">
@@ -73,17 +69,9 @@ export default async function Page({
             {/* {galleryData.map((data) => {
               return <Thumb post={data} key={data.postId} />;
             })} */}
-            {gallery?.map(
-              (data: {
-                postId: number;
-                title?: string;
-                content?: string;
-                img?: string;
-                createdAt: string;
-              }) => {
-                return <Thumb post={data} key={data.postId} />;
-              }
-            )}
+            {gallery?.map((data: IGallery) => {
+              return <Thumb post={data} key={data.postId} />;
+            })}
           </ul>
           <Pagination />
         </div>

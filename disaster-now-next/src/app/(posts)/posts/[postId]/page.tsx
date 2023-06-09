@@ -6,7 +6,8 @@ export default async function Post({ params }: { params: { postId: number } }) {
     const resData = await fetch(
       `http://localhost:3100/posts/${params.postId}`,
       {
-        next: { revalidate: 10 },
+        // next: { revalidate: 5 },
+        cache: "no-store",
       }
     );
     // console.log(resData.data);
@@ -33,7 +34,7 @@ export default async function Post({ params }: { params: { postId: number } }) {
     const resData = await fetch(
       `http://localhost:3100/comments/allComments/${params.postId}`,
       {
-        next: { revalidate: 1 },
+        cache: "no-store",
       }
     );
     // console.log(resData.data);
@@ -59,12 +60,12 @@ export default async function Post({ params }: { params: { postId: number } }) {
         </div>
       </div>
       {/* 내용박스 */}
-      <div className="m-1 flex flex-col">
-        <div className="m-1">
+      <div className="m-1 flex flex-col ">
+        <div className="m-1 flex justify-center align-center">
           <img
             className="w-100 border border-gray-500 h-96"
-            src={gallery?.img}
-            alt={gallery?.img}
+            src={`http://localhost:3100${gallery?.img.replace("static", "")}`}
+            alt={gallery?.img.replace("static", "")}
           />
         </div>
         <div className="m-2 h-40">

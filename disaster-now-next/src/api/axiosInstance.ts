@@ -11,7 +11,7 @@ const axiosLocalInstance = axios.create({
 const axiosLocalImgInstance = axios.create({
   baseURL: "http://localhost:3100",
   headers: {
-    //
+    "Content-Type": "multipart/form-data",
   },
 });
 

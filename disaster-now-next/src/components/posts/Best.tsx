@@ -1,12 +1,10 @@
-export default function Best({
-  data,
-}: {
-  data: { img?: string; title?: string };
-}) {
+import { ITags } from "@/interface/postsDtos";
+
+export default function Best({ data }: { data: ITags }) {
   return (
     <div className="bg-white rounded-lg w-52 h-50 flex flex-col m-1 p-2 content-center justify-center">
-      <img src={data.img} alt="no img" className="w-20 h-20" />
-      <h4>{data.title?.substring(0, 30)}</h4>
+      <h2 className="m-0 p-0 ">{data.tagName}</h2>
+      <h4>{data.msg?.substring(0, 28) + "..."}</h4>
     </div>
   );
 }
