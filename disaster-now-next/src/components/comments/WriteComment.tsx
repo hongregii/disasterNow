@@ -57,6 +57,7 @@ export function WriteComment({ postId }: { postId: number }) {
           value={commentData?.password}
           className="border border-gray-300 w-1/2 h-8 p-2"
           placeholder="비밀번호"
+          type="password"
         />
       </div>
       <input

@@ -4,6 +4,7 @@ import { postAxios, signUpAxios } from "@/api/axiosInstance";
 import { Button } from "@/components/Button";
 import { SignupDto } from "@/interface/userDtos";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Signup() {
@@ -17,9 +18,14 @@ export default function Signup() {
     setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
 
+  const router = useRouter();
   const handleSubmit = async (signupData: SignupDto) => {
     const res = await signUpAxios(signupData);
     console.log(res);
+
+    if (res.status === 201) {
+      router.push("/posts");
+    }
   };
   return (
     <div>

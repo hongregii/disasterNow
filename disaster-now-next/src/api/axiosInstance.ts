@@ -38,7 +38,7 @@ export const getAnyoneAxios = async (endpoint: string) => {
 };
 
 export const signUpAxios = async (signUpData: SignupDto) => {
-  const res = await axiosLogOutInstance.post("/user/sign-up", signUpData);
+  const res = await axiosLogOutInstance.post("/users/sign-up", signUpData);
   // sessionStorage.setItem("token", res.data.token);
   return res;
 };
